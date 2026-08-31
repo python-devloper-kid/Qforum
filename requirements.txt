@@ -6,3 +6,4 @@ jinja2
 python-multipart
 werkzeug
 psycopg2-binary
+itsdangerous
