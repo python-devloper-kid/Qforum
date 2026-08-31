@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style2.css') }}">
+  <title>QForum - Profile</title>
+</head>
+<body>
+  <div class="background-art" aria-hidden="true"></div>
+
+  <header class="navbar">
+    <a href="/" class="nav-brand">
+      <div class="brand-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+        </svg>
+      </div>
+      <span>QForum</span>
+    </a>
+
+    <div class="nav-search">
+      <form action="{{ url_for('search') }}" method="get" class="search-form">
+        <input name="search" type="text" class="search-input" placeholder="Search Forum...">
+        <button type="submit" class="btn-search">Search</button>
+      </form>
+    </div>
+
+    <div class="nav-actions">
+      <form action="{{ url_for('create_post') }}">
+        <button type="submit" class="btn-create">+ Create</button>
+      </form>
+      <a href="/" class="user-profile-trigger" title="Back to Dashboard">
+        {{ user.username[0]|upper }}
+      </a>
+    </div>
+  </header>
+
+  <main class="profile-container">
+    <section class="profile-card">
+      <div class="profile-banner"></div>
+      
+      <div class="profile-content">
+        <div class="profile-avatar-large">
+          {{ user.username[0]|upper }}
+        </div>
+
+        <div class="profile-info">
+          <h1>{{ user.username }}</h1>
+          <p class="profile-email">{{ user.email }}</p>
+        </div>
+
+        <div class="profile-stats">
+          <div class="stat-box">
+            <span class="stat-value">{{ user_posts|length }}</span>
+            <span class="stat-label">Posts</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-value">{{ comments|length}}</span>
+            <span class="stat-label">Comments</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-value">Active</span>
+            <span class="stat-label">Account Status</span>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <form action="{{ url_for('logout') }}" method="get" style="width: 100%;">
+            <button type="submit" class="btn-logout-full">Logout</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="user-posts-section">
+      <h2>Your Posts</h2>
+
+      {% if user_posts %}
+        {% for post in user_posts %}
+          <article class="post-card-compact">
+            <div class="post-content">
+              <div class="post-header">
+                <a href="{{ url_for('view_post', post_id=post.id) }}" class="subreddit-name">
+                  {{ post.topic }}
+                </a>
+                <span>•</span>
+                <span class="post-date">{{ post.created_at }}</span>
+              </div>
+
+              <a href="{{ url_for('view_post', post_id=post.id) }}" class="post-title">
+                {{ post.title }}
+              </a>
+
+              <p class="post-body-preview">
+                {{ post.body[:150] }}{% if post.body|length > 150 %}...{% endif %}
+              </p>
+            </div>
+          </article>
+        {% endfor %}
+      {% else %}
+        <div class="empty-state">
+          <p>You haven’t created any posts yet.</p>
+        </div>
+      {% endif %}
+    </section>
+  </main>
+
+  <script>
+    // Handle back button on profile avatar
+    const backButton = document.querySelector('.user-profile-trigger');
+    if (backButton) {
+      backButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = '/';
+      });
+    }
+  </script>
+</body>
+</html>

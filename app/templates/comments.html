@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style4.css') }}">
+  <title>QForum</title>
+  </head>
+<body><header class="navbar">
+    <a href="/" class="nav-brand">
+      <div class="brand-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+        </svg>
+      </div>
+      <span>QForum</span>
+    </a>
+
+    <div class="nav-search">
+      <input type="text" class="search-input" placeholder="Search Forum...">
+    </div>
+
+    <div class="user-profile" title="User Profile">U</div>
+  </header>
+
+  <main class="container">
+
+    <!-- Individual Post Card -->
+    <article class="post-container">
+      <div class="post-content">
+        <div class="post-header">
+          <a href="#" class="subreddit-name">{{post.topic}}</a>
+          <span>•</span>
+          <span>Posted by {{post.author_id}} on {{post.created_at}}</span>
+        </div>
+
+        <h1 class="post-title">{{post.title}}</h1>
+
+        <div class="post-body">
+          <p>{{post.body}}</p>
+         </div>
+
+        {% if can_manage_post %}
+        <div class="post-actions" style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+          <a href="{{ url_for('edit_post_page', post_id=post.id) }}" class="btn-submit-comment" style="display: inline-block; text-decoration: none;">Edit</a>
+          <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}" style="margin: 0;">
+            <button type="submit" class="btn-submit-comment" style="background: #d93a3a; border-color: #d93a3a;">Delete</button>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    </article>
+
+    <!-- Create Comment Box -->
+    <section class="add-comment-card">
+      <div class="comment-as">Comment as <span>{{user}}</span></div>
+      <form  method="POST" action="{{ url_for('create_comment', post_id=post.id) }}">
+        <textarea class="comment-textarea" name="comment" placeholder="What are your thoughts?" required></textarea>
+        <div class="comment-submit-wrapper">
+          <button type="submit" class="btn-submit-comment">Comment</button>
+        </div>
+      </form>
+    </section>
+
+    {% if editing_comment_id %}
+    <section class="add-comment-card">
+      <div class="comment-as">Edit comment</div>
+      <form method="POST" action="{{ url_for('edit_comment', post_id=post.id, comment_id=editing_comment_id) }}">
+        <textarea class="comment-textarea" name="comment" required>{{ editing_comment_body }}</textarea>
+        <div class="comment-submit-wrapper">
+          <button type="submit" class="btn-submit-comment">Save Changes</button>
+        </div>
+      </form>
+    </section>
+    {% endif %}
+
+    <!-- Comments Section -->
+    <section class="comments-section">
+      <h2 class="section-title">Comments</h2>
+
+      <div class="comment-thread">
+    {% for commentdata in comments %}
+        <div class="comment">
+          <div class="comment-avatar">@</div>
+          <div class="comment-body-wrapper">
+            <div class="comment-meta">
+              <a href="#" class="comment-author">{{commentdata.author_id}}</a>
+              {% if commentdata.author_id == user %}
+              <div style="display: flex; gap: 0.5rem; margin-left: auto;">
+                <a href="{{ url_for('edit_comment_page', post_id=post.id, comment_id=commentdata.id) }}" class="btn-submit-comment" style="padding: 0.35rem 0.8rem; text-decoration: none;">Edit</a>
+                <form method="POST" action="{{ url_for('delete_comment', post_id=post.id, comment_id=commentdata.id) }}" style="margin: 0;">
+                  <button type="submit" class="btn-submit-comment" style="padding: 0.35rem 0.8rem; background: #d93a3a; border-color: #d93a3a;">Delete</button>
+                </form>
+              </div>
+              {% endif %}
+            </div>
+            <p class="comment-text">{{commentdata.body}}</p>
+        </div></div>
+{% endfor %}
+        
+      
+    </section>
+
+  </main>
+
+</body>
+</html>

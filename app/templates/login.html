@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QForum</title>
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="brand-header">
+      <div class="brand-icon">
+        <!-- Speech Bubble Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+        </svg>
+      </div>
+      <h1>QForum</h1>
+      <h6>An online forum made with Flask</h6>
+    </div>
+
+    <!-- Tab Switching -->
+    <div class="tab-switch">
+      <button class="tab-btn active" onclick="switchTab('login')" type="button">Log In</button>
+      <button class="tab-btn" onclick="switchTab('signup')" type="button">Sign Up</button>
+    </div>
+
+    <!-- Display Error Messages -->
+    {% if error %}
+    <div class="error-message">{{ error }}</div>
+    {% endif %}
+
+    <!-- Login Form -->
+    <form id="login-form" class="auth-form active" method="POST" action="{{ url_for('login') }}">
+      <div class="input-group">
+        <label for="login-username">Email</label>
+        <input type="text" id="login-username" required autocomplete="username" name="username">
+      </div>
+      <div class="input-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" required autocomplete="current-password" name="password">
+      </div>
+      <button type="submit" class="submit-btn">Log In</button>
+    </form>
+
+    <!-- Sign Up Form -->
+    <form id="signup-form" class="auth-form" method="POST" action="{{ url_for('signup') }}">
+      <div class="input-group">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" required autocomplete="email" name="email">
+      </div>
+      <div class="input-group">
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" required autocomplete="username" name="username">
+      </div>
+      <div class="input-group">
+        <label for="signup-password">Set New Password</label>
+        <input type="password" id="signup-password" placeholder="DO NOT USE SENSITIVE PASSWORD" autocomplete="new-password" name="password" minlength="5">
+      </div>
+      <button type="submit" class="submit-btn">Create Account</button>
+      <p class="terms-notice">
+        By continuing, you agree to our <a href="#">User Agreement</a> and <a href="#">Privacy Policy</a>.
+      </p>
+    </form>
+  </div>
+
+  <script>
+  function switchTab(tab) {
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const tabs = document.querySelectorAll('.tab-btn');
+
+    if (tab === 'login') {
+      loginForm.classList.add('active');
+      signupForm.classList.remove('active');
+      tabs[0].classList.add('active');
+      tabs[1].classList.remove('active');
+    } else {
+      signupForm.classList.add('active');
+      loginForm.classList.remove('active');
+      tabs[1].classList.add('active');
+      tabs[0].classList.remove('active');
+    }
+  }
+  </script>
+</body>
+</html>

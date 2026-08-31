@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style2.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QForum-Home</title>
+  </head>
+<body>
+  <div class="background-art" aria-hidden="true"></div>
+    <header class="navbar">
+    <a href="/" class="nav-brand">
+      <div class="brand-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+        </svg>
+      </div>
+      <span>QForum</span>
+    </a>
+
+    <div class="nav-search">
+      <form action="{{ url_for('search') }}" method="get" class="search-form">
+        <input name="search" type="text" class="search-input" placeholder="Search Forum...">
+        <button type="submit" class="btn-search">Search</button>
+      </form>
+    </div>
+    
+
+    <div class="nav-actions">
+      <form action="{{ url_for('create_post') }}">
+        <button type="submit" class="btn-create">+ Create</button>
+      </form>
+      <a href="{{ url_for('user_profile') }}" class="user-profile-trigger" aria-label="Open user profile">
+        {{ user.username[0]|upper }}
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <!-- Feed Column -->
+    <section class="feed" id="post-feed">
+
+{% for post in posts %}
+<article class="post-card">
+
+
+    <div class="post-content">
+
+        <div class="post-header">
+
+            <a href="{{ url_for('view_post', post_id=post.id) }}"
+               class="subreddit-name">
+                {{ post.topic }}
+            </a>
+
+            <span>•</span>
+
+            <span>
+                Posted by {{ post.author_id }} on {{ post.created_at }} UTC
+            </span>
+
+        </div>
+
+        <a href="{{ url_for('view_post', post_id=post.id) }}"
+           class="post-title">
+            {{ post.title }}
+        </a>
+
+        <p class="post-body">
+            {{ post.body }}
+        </p>
+
+        <div class="post-footer">
+
+            <a href="{{ url_for('view_post', post_id=post.id) }}"
+               class="footer-action">
+                💬 Check Comments
+            </a>
+
+        </div>
+
+    </div>
+
+</article>
+{% endfor %}
+{% if next_offset is not none %}
+    <button id="load-older-posts" type="button" data-offset="{{ next_offset }}" class="btn-create">
+      Load older posts
+    </button>
+       
+    {% else %} 
+    <label id="load-older-posts" type="button" data-offset="{{ next_offset }}" class="btn-create">
+      No More Posts.....
+    </label>
+    {% endif %}  
+
+    </section>
+        <aside class="sidebar">
+      <div class="sidebar-widget">
+        <h2 class="widget-title">Trending Topics</h2>
+        <ul class="community-list">
+            {% for u in posts%}
+          <li class="community-item">
+            <a href="#" class="community-info">
+              <div class="community-icon">{{u.topic[0]}}</div>
+              <div class="community-details">
+                <span>{{u.topic}}</span>
+              </div>
+            </a>
+          </li>
+          {%endfor%}
+        </ul>
+      </div>
+    </aside>
+
+  </main>
+
+  <script>
+    const feedSection = document.getElementById('post-feed');
+    const loadOlderButton = document.getElementById('load-older-posts');
+
+    if (loadOlderButton && feedSection) {
+      loadOlderButton.addEventListener('click', async () => {
+        const offset = Number(loadOlderButton.dataset.offset || 0);
+        if (!Number.isFinite(offset)) {
+          return;
+        }
+
+        const response = await fetch(`/older-posts?offset=${offset}`);
+        if (!response.ok) {
+          return;
+        }
+
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const nextFeed = doc.getElementById('post-feed');
+        const nextButton = doc.getElementById('load-older-posts');
+
+        if (nextFeed) {
+          feedSection.innerHTML = nextFeed.innerHTML;
+        }
+
+        if (nextButton) {
+          loadOlderButton.dataset.offset = nextButton.dataset.offset;
+          loadOlderButton.textContent = nextButton.textContent;
+        } else {
+          loadOlderButton.remove();
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

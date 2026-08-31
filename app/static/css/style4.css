@@ -1,0 +1,386 @@
+:root {
+      --bg-color: #0e1113;
+      --card-bg: #1a1a1b;
+      --border-color: #343536;
+      --text-main: #d7dedd;
+      --text-muted: #818384;
+      --accent-color: #ff4500;
+      --accent-hover: #e03d00;
+      --input-bg: #272729;
+      --upvote-color: #ff4500;
+      --downvote-color: #7193ff;
+      --thread-line: #343536;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding-top: 56px;
+    }
+
+    /* --- TOP NAVBAR --- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background-color: var(--accent-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-logo svg {
+      fill: #ffffff;
+      width: 20px;
+      height: 20px;
+    }
+
+    .nav-search {
+      flex: 1;
+      max-width: 600px;
+      margin: 0 16px;
+    }
+
+    .search-input {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 8px 16px;
+      color: #ffffff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #ffffff;
+    }
+
+    .user-profile {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #343536;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    /* --- LAYOUT GRID --- */
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+
+    /* --- MAIN POST CARD --- */
+    .post-container {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      display: flex;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .vote-panel {
+      width: 44px;
+      background-color: rgba(255, 255, 255, 0.015);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 0;
+      gap: 6px;
+    }
+
+    .vote-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+    .vote-btn:hover.up {
+      color: var(--upvote-color);
+      background-color: rgba(255, 69, 0, 0.1);
+    }
+
+    .vote-btn:hover.down {
+      color: var(--downvote-color);
+      background-color: rgba(113, 147, 255, 0.1);
+    }
+
+    .vote-count {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .post-content {
+      padding: 16px;
+      flex: 1;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .subreddit-name {
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .subreddit-name:hover {
+      text-decoration: underline;
+    }
+
+    .post-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .post-body {
+      font-size: 0.95rem;
+      color: #d7dedd;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .post-footer {
+      display: flex;
+      gap: 16px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      padding-top: 12px;
+    }
+
+    .footer-action {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .footer-action:hover {
+      background-color: var(--input-bg);
+    }
+
+    /* --- COMMENT INPUT SECTION --- */
+    .add-comment-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .comment-as {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .comment-as span {
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .comment-textarea {
+      width: 100%;
+      min-height: 100px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px;
+      color: #ffffff;
+      font-size: 0.9rem;
+      outline: none;
+      resize: vertical;
+      margin-bottom: 12px;
+    }
+
+    .comment-textarea:focus {
+      border-color: #ffffff;
+    }
+
+    .comment-submit-wrapper {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-submit-comment {
+      background-color: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-submit-comment:hover {
+      background-color: var(--accent-hover);
+    }
+
+    /* --- COMMENTS THREAD --- */
+    .comments-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+
+    /* Thread Layout */
+    .comment-thread {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .comment {
+      display: flex;
+      gap: 12px;
+      position: relative;
+    }
+
+    /* Nested Comments Threading */
+    .comment-nested {
+      margin-left: 28px;
+      padding-left: 16px;
+      border-left: 2px solid var(--thread-line);
+      margin-top: 12px;
+    }
+
+    .comment-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #4a4d52;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .comment-body-wrapper {
+      flex: 1;
+    }
+
+    .comment-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .comment-author {
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .comment-author:hover {
+      text-decoration: underline;
+    }
+
+    .comment-text {
+      font-size: 0.9rem;
+      color: #c8cecd;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .comment-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-weight: 700;
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 2px;
+    }
+
+    .action-btn:hover {
+      background-color: var(--input-bg);
+      color: var(--text-main);
+    }
+
+    .comment-votes {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
