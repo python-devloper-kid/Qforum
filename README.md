@@ -38,6 +38,7 @@ A modern web-based forum application built with **FastAPI** and **SQLAlchemy**, 
 ---
 
 
+
 4. **Create a `.env` file** in the project root
 # Secret key for session management
 SECRET_KEY=your_secret_key_here
@@ -48,10 +49,10 @@ DATABASE_URL= xyz
 # Optional: Server configuration
 HOST=0.0.0.0
 PORT=8000
-   ```
 
 
-```
+
+
 ## 🔌 API Routes
 
 ### Authentication Routes (`/`)
