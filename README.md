@@ -9,7 +9,7 @@ A modern web-based forum application built with **FastAPI** and **SQLAlchemy**, 
 |-----------|-----------|
 | **Backend Framework** | FastAPI |
 | **Web Server** | Uvicorn |
-| **Database** | SQLite (via SQLAlchemy ORM) |
+| **Database** | Postgres (via SQLAlchemy ORM) |
 | **Authentication** | Session-based with Werkzeug password hashing |
 | **Frontend Templates** | Jinja2 |
 | **Frontend Styling** | CSS3 |
